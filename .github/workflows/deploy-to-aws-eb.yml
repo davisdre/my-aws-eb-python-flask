@@ -22,13 +22,13 @@ jobs:
           aws-region: "us-east-2"
 
       - name: Upload package to S3 bucket
-        run: aws s3 cp deploy_package.zip s3://my-aws-eb-python-flask-deploy/
+        run: aws s3 cp deploy_package.zip s3://my-eb-python-flask-deploy/
 
       - name: Create new ElasticBeanstalk Application Version
         run: |
           aws elasticbeanstalk create-application-version \
           --application-name my-eb-python-flask \
-          --source-bundle S3Bucket="my-aws-eb-python-flask-deploy",S3Key="deploy_package.zip" \
+          --source-bundle S3Bucket="my-eb-python-flask-deploy",S3Key="deploy_package.zip" \
           --version-label "ver-${{ github.sha }}" \
           --description "commit-sha-${{ github.sha }}"
 
