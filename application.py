@@ -1,34 +1,35 @@
-from flask import Flask
+#make a virtual envirnment and install all the module 
+#import the flask module
+from flask import Flask,render_template,request
+import requests
 
-# print a nice greeting.
-def say_hello(username = "and welcome to Drew's Beanstalk World"):
-    return '<p>Hello %s!</p>\n' % username
+app = Flask(__name__)
 
-# some bits of text for the page.
-header_text = '''
-    <html>\n<head> <title>Drew's Beanstalk World</title> </head>\n<body>'''
-instructions = '''
-    <p><em>Hint</em>: This is a RESTful web service! Append a username
-    to the URL (for example: <code>/Thelonious</code>) to say hello to
-    someone specific.</p>\n'''
-home_link = '<p><a href="/">Back</a></p>\n'
-footer_text = '</body>\n</html>'
+#make a route and render all the html templates in this route
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        city_name = request.form.get('city')
 
-# EB looks for an 'application' callable by default.
-application = Flask(__name__)
+        #take a variable to show the json data
+        r = requests.get('https://api.openweathermap.org/data/2.5/weather?q='+city_name+'&appid=e76c20c979cce7e839ed673404ba291a&units=imperial')
 
-# add a rule for the index page.
-application.add_url_rule('/', 'index', (lambda: header_text +
-    say_hello() + instructions + footer_text))
+        #read the json object
+        json_object = r.json()
 
-# add a rule when the page is accessed with a name appended to the site
-# URL.
-application.add_url_rule('/<username>', 'hello', (lambda username:
-    header_text + say_hello(username) + home_link + footer_text))
+        #take some attributes like temperature,humidity,pressure of this 
+        temperature = int(json_object['main']['temp']) #this temparetuure in kelvin
+        humidity = int(json_object['main']['humidity'])
+        wind = int(json_object['wind']['speed'])
 
-# run the app.
-if __name__ == "__main__":
-    # Setting debug to True enables debug output. This line should be
-    # removed before deploying a production app.
+        #atlast just pass the variables
+        condition = json_object['weather'][0]['main']
+        desc = json_object['weather'][0]['description']
+        
+        return render_template('home.html',temperature=temperature,humidity=humidity,city_name=city_name,condition=condition,wind=wind,desc=desc)
+    else:
+        return render_template('home.html') 
 
-    application.run()
+
+if __name__ == '__main__':
+    app.run(debug=True)
