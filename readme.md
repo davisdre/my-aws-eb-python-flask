@@ -1,6 +1,6 @@
 # My AWS Beanstalk Flask
 
-As I'm studying for my AWC Cloud practitioner exam I came across this [tutorial from AWS](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create-deploy-python-flask.html). These hands on project help me with understanding the service(s) and putting it into practice. This also helps with learning the CLI of those services as well. 
+As I'm studying for my AWC Cloud practitioner exam I came I like do some hands on projects. I've converted my Open Weather project to Python and deploying it to AWS Beanstalk. 
 
 ## My take aways
 1. Learned about Python.
