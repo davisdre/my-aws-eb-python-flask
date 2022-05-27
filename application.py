@@ -35,8 +35,4 @@ def index():
 
 
 if __name__ == '__main__':
-<<<<<<< HEAD
     application.run()
-=======
-    app.run(port=8000)
->>>>>>> 30e5357ba7321c43f4a4e6e377ce243dcabe9c81
