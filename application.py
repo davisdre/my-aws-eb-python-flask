@@ -1,12 +1,15 @@
 #make a virtual envirnment and install all the module 
 #import the flask module
-from flask import Flask,render_template,request
+from email.mime import application
+from flask import Flask, render_template, request
+from flask_cors import CORS, cross_origin
 import requests
 
-app = Flask(__name__)
+application = Flask(__name__)
+CORS(application)
 
 #make a route and render all the html templates in this route
-@app.route('/', methods=['GET', 'POST'])
+@application.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         city_name = request.form.get('city')
@@ -32,4 +35,4 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run()
+    application.run()
